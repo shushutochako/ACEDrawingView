@@ -323,7 +323,7 @@
     }
   
     // call the delegate
-    if ([self.delegate respondsToSelector:@selector(drawingView:moveDrawUsingTool::)]) {
+    if ([self.delegate respondsToSelector:@selector(drawingView:moveDrawUsingTool:)]) {
         [self.delegate drawingView:self moveDrawUsingTool:currentPoint];
     }
   
