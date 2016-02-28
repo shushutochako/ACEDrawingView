@@ -623,6 +623,34 @@
     }
 }
 
+- (void)draw :(CGPoint)point {
+  
+  // previous
+  self.currentTool = [self toolWithCurrentSettings];
+  self.currentTool.lineWidth = self.lineWidth;
+  self.currentTool.lineColor = self.lineColor;
+  self.currentTool.lineAlpha = self.lineAlpha;
+  [self.pathArray addObject:self.currentTool];
+  [self.currentTool setInitialPoint:currentPoint];
+  
+  // move
+  previousPoint2 = previousPoint1;
+  previousPoint1 = currentPoint;
+  currentPoint = point;
+  CGRect bounds = [(ACEDrawingPenTool*)self.currentTool addPathPreviousPreviousPoint:previousPoint2 withPreviousPoint:previousPoint1 withCurrentPoint:currentPoint];
+  
+  CGRect drawBox = bounds;
+  drawBox.origin.x -= self.lineWidth * 2.0;
+  drawBox.origin.y -= self.lineWidth * 2.0;
+  drawBox.size.width += self.lineWidth * 4.0;
+  drawBox.size.height += self.lineWidth * 4.0;
+  
+  [self setNeedsDisplayInRect:drawBox];
+  
+  // end
+  [self finishDrawing];
+}
+
 
 - (void)dealloc
 {
