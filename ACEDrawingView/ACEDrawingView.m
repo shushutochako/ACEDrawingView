@@ -269,6 +269,7 @@
     UITouch *touch = [touches anyObject];
     previousPoint1 = [touch previousLocationInView:self];
     currentPoint = [touch locationInView:self];
+    _myPoint = [touch locationInView:self];
     
     // init the bezier path
     self.currentTool = [self toolWithCurrentSettings];
@@ -300,6 +301,7 @@
     previousPoint2 = previousPoint1;
     previousPoint1 = [touch previousLocationInView:self];
     currentPoint = [touch locationInView:self];
+    _myPoint = [touch locationInView:self];
     
     if ([self.currentTool isKindOfClass:[ACEDrawingPenTool class]]) {
         CGRect bounds = [(ACEDrawingPenTool*)self.currentTool addPathPreviousPreviousPoint:previousPoint2 withPreviousPoint:previousPoint1 withCurrentPoint:currentPoint];
@@ -319,7 +321,12 @@
         [self.currentTool moveFromPoint:previousPoint1 toPoint:currentPoint];
         [self setNeedsDisplay];
     }
-    
+  
+    // call the delegate
+    if ([self.delegate respondsToSelector:@selector(drawingView:moveDrawUsingTool::)]) {
+        [self.delegate drawingView:self moveDrawUsingTool:currentPoint];
+    }
+  
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

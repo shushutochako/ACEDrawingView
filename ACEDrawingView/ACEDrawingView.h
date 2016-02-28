@@ -59,6 +59,8 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 @property (nonatomic, assign) CGFloat lineAlpha;
 @property (nonatomic, assign) ACEDrawingMode drawMode;
 
+@property (nonatomic, assign) CGPoint myPoint;
+
 // get the current drawing
 @property (nonatomic, strong, readonly) UIImage *image;
 @property (nonatomic, strong) UIImage *backgroundImage;
@@ -99,5 +101,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 @optional
 - (void)drawingView:(ACEDrawingView *)view willBeginDrawUsingTool:(id<ACEDrawingTool>)tool;
 - (void)drawingView:(ACEDrawingView *)view didEndDrawUsingTool:(id<ACEDrawingTool>)tool;
+- (void)drawingView:(ACEDrawingView *)view moveDrawUsingTool:(CGPoint)point;
+
 
 @end
