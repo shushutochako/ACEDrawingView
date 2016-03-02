@@ -28,21 +28,21 @@
 #define ACEDrawingViewVersion   1.3.7
 
 typedef enum {
-    ACEDrawingToolTypePen,
-    ACEDrawingToolTypeLine,
-    ACEDrawingToolTypeRectagleStroke,
-    ACEDrawingToolTypeRectagleFill,
-    ACEDrawingToolTypeEllipseStroke,
-    ACEDrawingToolTypeEllipseFill,
-    ACEDrawingToolTypeEraser,
-    ACEDrawingToolTypeText,
-    ACEDrawingToolTypeMultilineText,
-    ACEDrawingToolTypeCustom,
+  ACEDrawingToolTypePen,
+  ACEDrawingToolTypeLine,
+  ACEDrawingToolTypeRectagleStroke,
+  ACEDrawingToolTypeRectagleFill,
+  ACEDrawingToolTypeEllipseStroke,
+  ACEDrawingToolTypeEllipseFill,
+  ACEDrawingToolTypeEraser,
+  ACEDrawingToolTypeText,
+  ACEDrawingToolTypeMultilineText,
+  ACEDrawingToolTypeCustom,
 } ACEDrawingToolType;
 
 typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
-    ACEDrawingModeScale,
-    ACEDrawingModeOriginalSize
+  ACEDrawingModeScale,
+  ACEDrawingModeOriginalSize
 };
 
 @protocol ACEDrawingViewDelegate, ACEDrawingTool;
@@ -80,7 +80,8 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 - (BOOL)canRedo;
 - (void)redoLatestStep;
 
-- (void)draw :(CGPoint)point;
+- (void)draw :(NSString*)status :(CGPoint)point;
+
 
 /**
  @discussion Discards the tool stack and renders them to prev_image, making the current state the 'start' state.
@@ -90,7 +91,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 
 @end
 
-#pragma mark - 
+#pragma mark -
 
 @interface ACEDrawingView (Deprecated)
 @property (nonatomic, strong) UIImage *prev_image DEPRECATED_MSG_ATTRIBUTE("Use 'backgroundImage' instead.");
@@ -101,7 +102,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 @protocol ACEDrawingViewDelegate <NSObject>
 
 @optional
-- (void)drawingView:(ACEDrawingView *)view willBeginDrawUsingTool:(id<ACEDrawingTool>)tool;
+- (void)drawingView:(ACEDrawingView *)view willBeginDrawUsingTool:(id<ACEDrawingTool>)tool point:(CGPoint)point;
 - (void)drawingView:(ACEDrawingView *)view didEndDrawUsingTool:(id<ACEDrawingTool>)tool;
 - (void)drawingView:(ACEDrawingView *)view moveDrawUsingTool:(CGPoint)point;
 
