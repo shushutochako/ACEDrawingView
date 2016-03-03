@@ -627,12 +627,24 @@
   
   if ([status isEqualToString:@"start"]) {
     // previous
+    previousPoint1 = point;
+    currentPoint = point;
+    
     self.currentTool = [self toolWithCurrentSettings];
     self.currentTool.lineWidth = self.lineWidth;
     self.currentTool.lineColor = self.lineColor;
     self.currentTool.lineAlpha = self.lineAlpha;
     [self.pathArray addObject:self.currentTool];
     [self.currentTool setInitialPoint:currentPoint];
+    if ([self.currentTool class] == [ACEDrawingTextTool class]) {
+      [self initializeTextBox:currentPoint WithMultiline:NO];
+    } else if([self.currentTool class] == [ACEDrawingMultilineTextTool class]) {
+      [self initializeTextBox:currentPoint WithMultiline:YES];
+    } else {
+      [self.pathArray addObject:self.currentTool];
+      
+      [self.currentTool setInitialPoint:currentPoint];
+    }
   }
   
   if ([status isEqualToString:@"move"]) {
@@ -651,6 +663,9 @@
   
   if ([status isEqualToString:@"end"]) {
     // end
+    if ([self.currentTool isKindOfClass:[ACEDrawingTextTool class]]) {
+      [self startTextEntry];
+    }
     [self finishDrawing];
   }
 }
